@@ -1,52 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-    	<title>Welcome</title>
-		<style>
-			.grid {
-		  		display: grid;
-		  		grid-template-columns: repeat(3, 50px);
-		  		grid-gap: 5px;
-			}
+<head>
+	<title>Welcome</title>
+	<style>
+		.grid {
+			display: grid;
+			/* El tamaño de columnas se define por JS */
+			grid-gap: 2px;
+			margin-top: 20px;
+		}
 
-			.grid div {
-		  		width: 50px;
-		  		height: 50px;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="slider-container">
-		    <input type="range" id="mySlider" min="0" th:max="${maxTime}" value="50">
-		    <span id="sliderValue">0</span>
-		</div>
-		<div class="grid" id='gr'></div>
-		<script th:inline="javascript">
-			const count = /*[[${count}]]*/ 0;
-			const colors = /*[[${colors}]]*/ {};
-			function createSquares(){
-				var grid = document.getElementById('gr');
-				for(var i = 0; i < count; i++){
-					for(var j = 0; j < count; j++){
-				    	var node = document.createElement("div");
-						node.id = i+'-'+j;
-				      	node.style.background = colors['0-'+i+'-'+j]??'blue';
-				      	grid.appendChild(node);
-				    }
-				}
-				document.getElementsByClassName('grid').item(0).style.gridTemplateColumns = 'repeat('+count+',50px)';
-			}
-			const slider = document.getElementById("mySlider");
+		.grid div {
+			width: 30px;
+			height: 30px;
+			border: 1px solid #ccc;
+		}
+		.slider-container { margin: 20px 0; font-family: sans-serif; }
+	</style>
+</head>
+<body>
+<div class="slider-container">
+	Tiempo: <input type="range" id="mySlider" min="0" th:max="${maxTime}" value="0">
+	<span id="sliderValue">0</span>s
+</div>
+<div class="grid" id='gr'></div>
+<script th:inline="javascript">
+	const count = /*[[${count}]]*/ 0;
+	const colors = /*[[${colors}]]*/ {};
 
-			slider.addEventListener("input", function() {
-		    	for(var y = 0; y < count; y++){
-					for(var x = 0; x < count; x++){
-						var node = document.getElementById(y+'-'+x);
-						node.style.background = colors[slider.value+'-'+y+'-'+x]??'blue';
-					}
+	// Debug en consola para ver si llegan datos
+	console.log("Ancho recibido:", count);
+	console.log("Datos de colores:", colors);
+
+	const slider = document.getElementById("mySlider");
+	const sliderValue = document.getElementById("sliderValue");
+
+	function createSquares(){
+		const grid = document.getElementById('gr');
+		grid.innerHTML = ''; // Limpiar matriz anterior
+
+		if (count <= 0) return;
+
+		// Ajustar el número de columnas dinámicamente
+		grid.style.gridTemplateColumns = `repeat(${count}, 30px)`;
+
+		for(var i = 0; i < count; i++){
+			for(var j = 0; j < count; j++){
+				var node = document.createElement("div");
+				node.id = i+'-'+j;
+				// Intentar pintar el segundo 0 al cargar
+				node.style.background = colors['0-' + i + '-' + j] || 'blue';
+				grid.appendChild(node);
+			}
+		}
+	}
+
+	slider.addEventListener("input", function() {
+		sliderValue.textContent = slider.value;
+		for(let y = 0; y < count; y++){
+			for(let x = 0; x < count; x++){
+				let node = document.getElementById(y + '-' + x);
+				if(node) {
+					node.style.background = colors[slider.value + '-' + y + '-' + x] || 'blue';
 				}
-			});
-			createSquares(); // Sin esta llamada, la matriz no aparece al cargar la página
-		</script>
-	</body>
+			}
+		}
+	});
+	createSquares(); // Sin esta llamada, la matriz no aparece al cargar la página
+</script>
+</body>
 </html>

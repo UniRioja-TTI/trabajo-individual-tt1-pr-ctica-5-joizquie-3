@@ -10,7 +10,7 @@ public class ApiServiceConsumer {
     private final ObjectMapper mapper = new ObjectMapper();
     private static final String BASE_URL = "http://localhost:8080";
     // Cadena constante según el enunciado para esta iteración
-    private static final String USUARIO_CONSTANTE = "usuario_practica_5";
+    private static final String USUARIO_CONSTANTE = "test";
 
     public ResultsResponseDTO descargarResultados(int ticket) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
