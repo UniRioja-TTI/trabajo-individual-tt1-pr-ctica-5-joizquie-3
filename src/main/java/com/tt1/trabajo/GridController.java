@@ -37,11 +37,17 @@ public class GridController {
 		DatosSimulation ds = ics.descargarDatos(tok);
         model.addAttribute("count", ds.getAnchoTablero());
         model.addAttribute("maxTime", ds.getMaxSegundos());
+		model.addAttribute("tok", tok); // Añadido para el span id del HTML
         Map<String, String> colors = new HashMap<>();
-        for(var t = 0; t < ds.getMaxSegundos(); t++) {
-        	for(Punto p : ds.getPuntos().get(t)) {
-        		colors.put(t+"-"+p.getY()+"-"+p.getX(), p.getColor());
-        	}
+		// Ajuste: t <= ds.getMaxSegundos() para no perder el último fotograma
+		for(var t = 0; t <= ds.getMaxSegundos(); t++) {
+			List<Punto> puntosEnT = ds.getPuntos().get(t);
+			// Ajuste esencial: verificar que la lista no sea nula antes de iterar
+			if (puntosEnT != null) {
+				for(Punto p : puntosEnT) {
+					colors.put(t + "-" + p.getY() + "-" + p.getX(), p.getColor());
+				}
+			}
         }
         model.addAttribute("colors", colors);
         return "grid";
