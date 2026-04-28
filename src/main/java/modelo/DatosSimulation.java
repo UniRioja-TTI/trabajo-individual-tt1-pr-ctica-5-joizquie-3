@@ -8,7 +8,7 @@ public class DatosSimulation {
 	
 	private int maxSegundos;
 	private int anchoTablero;
-	private Map<Integer,List<Punto>> puntos;
+	private Map<Integer,List<Punto>> puntos = new java.util.HashMap<>();
 	
 	public int getMaxSegundos() {
 		return maxSegundos;

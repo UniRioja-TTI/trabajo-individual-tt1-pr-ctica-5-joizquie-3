@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 
 public class ApiServiceConsumer {
     private final ObjectMapper mapper = new ObjectMapper();
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_URL = "http://servicio-externo:8080";
     // Cadena constante según el enunciado para esta iteración
     private static final String USUARIO_CONSTANTE = "test";
 
@@ -19,8 +19,8 @@ public class ApiServiceConsumer {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .POST(HttpRequest.BodyPublishers.noBody()) // El JSON marca POST
                 .header("Accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
