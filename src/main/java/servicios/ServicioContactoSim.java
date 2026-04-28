@@ -15,9 +15,18 @@ public class ServicioContactoSim implements InterfazContactoSim {
     private Random random = new Random();
 
     @Override
-    public int solicitarSimulation(DatosSolicitud sol) {
-        solicitudesTemporales.add(sol);
-        return random.nextInt(1000, 9999);
+    public int solicitarSimulation(modelo.DatosSolicitud sol) {
+        try {
+            // En lugar de inventar un token, se lo pedimos al servidor externo
+            api.ApiServiceConsumer consumer = new api.ApiServiceConsumer();
+            int tokenReal = consumer.enviarSolicitud(sol);
+
+            System.out.println("Token real recibido del servidor: " + tokenReal);
+            return tokenReal;
+        } catch (Exception e) {
+            System.err.println("Error al contactar con el servidor de simulación: " + e.getMessage());
+            return -1; // Devolvemos -1 para que el SolicitudController sepa que hubo un error
+        }
     }
 
     @Override
