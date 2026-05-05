@@ -55,11 +55,11 @@ public class SolicitudController {
             }
         });
         if(!errors.isEmpty()) {
-        	model.addAttribute("errors", errors);
-        	logger.warn("Atendida petición con errores");
+            model.addAttribute("errors", errors);
+            logger.warn("Petición de reactor nuclear con errores"); // <--- Actualizar log
         } else {
-        	logger.info("Atendida petición");
-        	DatosSolicitud ds = new DatosSolicitud(validData);
+            logger.info("Iniciando simulación de reactor nuclear"); // <--- Actualizar log
+            DatosSolicitud ds = new DatosSolicitud(validData);
         	int tok = ics.solicitarSimulation(ds);
         	if(tok != -1) {
         		model.addAttribute("token", tok);

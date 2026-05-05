@@ -46,22 +46,30 @@ public class ServicioContactoSim implements InterfazContactoSim {
 
     @Override
     public List<Entidad> getEntities() {
+        List<Entidad> lista = new ArrayList<>();
+
         Entidad e1 = new Entidad();
         e1.setId(1);
-        e1.setName("Planta Fotovoltaica A1");
-        e1.setDescripcion("Ubicada en el sector norte del complejo");
+        e1.setName("Átomo de Uranio-235");
+        e1.setDescripcion("Combustible nuclear estático. Al ser golpeado por un neutrón, libera energía y se divide.");
 
         Entidad e2 = new Entidad();
         e2.setId(2);
-        e2.setName("Aerogenerador E-44");
-        e2.setDescripcion("Turbina de alta eficiencia");
+        e2.setName("Neutrón Térmico");
+        e2.setDescripcion("Partícula de alta velocidad. Inicia la reacción en cadena al colisionar con el Uranio.");
 
-        return List.of(e1, e2);
+        Entidad e4 = new Entidad();
+        e4.setId(4);
+        e4.setName("Barra de Control (Cadmio)");
+        e4.setDescripcion("Elemento estático que absorbe neutrones. Úsala para evitar que la reacción se descontrole.");
+
+        lista.addAll(List.of(e1, e2, e4)); // Añadimos la nueva entidad
+        return lista;
     }
 
     @Override
     public boolean isValidEntityId(int id) {
-        return id > 0;
+        return id >= 1 && id <= 4;
     }
 
     // Metodo para transformar el String del servicio en el objeto DatosSimulation
